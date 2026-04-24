@@ -245,12 +245,12 @@ footer span{color:var(--accent)}
       </div>
       <div class="contact-form">
         <div class="form-row">
-          <div class="form-group"><label>FIRST NAME</label><input type="text" placeholder="Jane"/></div>
-          <div class="form-group"><label>LAST NAME</label><input type="text" placeholder="Doe"/></div>
+          <div class="form-group"><label>FIRST NAME</label><input id="f-first" type="text" placeholder="Jane"/></div>
+          <div class="form-group"><label>LAST NAME</label><input id="f-last" type="text" placeholder="Doe"/></div>
         </div>
-        <div class="form-group"><label>EMAIL</label><input type="email" placeholder="jane@example.com"/></div>
-        <div class="form-group"><label>SUBJECT</label><input type="text" placeholder="Collaboration inquiry"/></div>
-        <div class="form-group"><label>MESSAGE</label><textarea placeholder="Tell me about the opportunity..."></textarea></div>
+        <div class="form-group"><label>EMAIL</label><input id="f-email" type="email" placeholder="jane@example.com"/></div>
+        <div class="form-group"><label>SUBJECT</label><input id="f-subject" type="text" placeholder="Collaboration inquiry"/></div>
+        <div class="form-group"><label>MESSAGE</label><textarea id="f-message" placeholder="Tell me about the opportunity..."></textarea></div>
         <button class="submit-btn" onclick="sendMessage()">Send Message →</button>
       </div>
     </div>
@@ -397,10 +397,33 @@ window.addEventListener('scroll',()=>{
   document.getElementById('progress').style.width=(window.scrollY/h*100)+'%';
 });
 function goTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
-function sendMessage(){
-  const t=document.getElementById('toast');
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
+async function sendMessage(){
+  const first=document.getElementById('f-first').value.trim();
+  const last=document.getElementById('f-last').value.trim();
+  const email=document.getElementById('f-email').value.trim();
+  const subject=document.getElementById('f-subject').value.trim();
+  const message=document.getElementById('f-message').value.trim();
+  if(!email||!message){alert('Please fill in your email and message.');return;}
+  const btn=document.querySelector('.submit-btn');
+  btn.disabled=true;btn.textContent='Sending…';
+  try{
+    const res=await fetch('https://formspree.io/f/maqavoee',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({name:`${first} ${last}`,email,subject,message})
+    });
+    if(res.ok){
+      const t=document.getElementById('toast');
+      t.classList.add('show');
+      setTimeout(()=>t.classList.remove('show'),3000);
+      document.getElementById('f-first').value='';
+      document.getElementById('f-last').value='';
+      document.getElementById('f-email').value='';
+      document.getElementById('f-subject').value='';
+      document.getElementById('f-message').value='';
+    }else{alert('Something went wrong. Please try again.');}
+  }catch(e){alert('Network error. Please try again.');}
+  btn.disabled=false;btn.textContent='Send Message →';
 }
 
 // HERO CANVAS — Cosmic Flow particle system
