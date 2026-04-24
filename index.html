@@ -3,7 +3,15 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Jose Garcia Valverde</title>
+<title>Jose Garcia Valverde — Principal Product Manager</title>
+<meta name="description" content="Principal Product Manager with 7+ years driving vision and growth for B2C digital products — from 0-to-1 launches to scaling platforms serving millions of users."/>
+<meta property="og:title" content="Jose Garcia Valverde — Principal Product Manager"/>
+<meta property="og:description" content="Principal Product Manager with 7+ years driving vision and growth for B2C digital products — from 0-to-1 launches to scaling platforms serving millions of users."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://jtgv.pro"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Jose Garcia Valverde — Principal Product Manager"/>
+<meta name="twitter:description" content="Principal Product Manager with 7+ years driving vision and growth for B2C digital products."/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -122,6 +130,9 @@ nav a:hover{color:var(--text)}
 .form-group textarea{height:100px}
 .submit-btn{width:100%;background:linear-gradient(135deg,var(--accent),#8b5cf6);border:none;color:#fff;padding:0.8rem;border-radius:8px;font-size:0.9rem;cursor:pointer;transition:opacity 0.2s;font-family:inherit}
 .submit-btn:hover{opacity:0.85}
+.field-error{font-size:0.75rem;color:#f87171;margin-top:0.25rem;display:none}
+.form-group.has-error input,.form-group.has-error textarea{border-color:#f87171}
+.form-group.has-error .field-error{display:block}
 .toast{position:fixed;bottom:2rem;right:2rem;background:var(--bg3);border:1px solid rgba(108,99,255,0.4);color:var(--text);padding:0.9rem 1.4rem;border-radius:10px;font-size:0.85rem;transform:translateY(4rem);opacity:0;transition:all 0.3s;z-index:999;display:flex;align-items:center;gap:0.6rem}
 .toast.show{transform:translateY(0);opacity:1}
 .toast-icon{color:#4ade80}
@@ -180,6 +191,7 @@ footer span{color:var(--accent)}
         <div class="hero-btns">
           <button class="btn-primary" onclick="goTo('projects')">View Products →</button>
           <button class="btn-outline" onclick="goTo('contact')">Contact Me</button>
+          <a class="btn-outline" href="assets/cv-jose-garcia-valverde.pdf" download style="display:inline-flex;align-items:center;gap:0.5rem;text-decoration:none">↓ Download CV</a>
         </div>
         <div class="hero-socials">
           <a class="social-btn" href="https://linkedin.com/in/jtgv/" title="LinkedIn" target="_blank" rel="noopener noreferrer">in</a>
@@ -204,6 +216,7 @@ footer span{color:var(--accent)}
         <p class="about-text">My background spans cybersecurity, gaming & esports, mobile apps, and finance systems — giving me a rare ability to context-switch and find creative solutions across domains. I'm also fluent in English, Italian, and Spanish.</p>
       </div>
     </div>
+    <div id="skills-wrap" style="margin-top:3rem"></div>
   </div>
 
   <div class="divider"></div>
@@ -241,16 +254,16 @@ footer span{color:var(--accent)}
         <h3>Let's build something great together.</h3>
         <p>I'm open to new opportunities — senior IC, leadership, advisory, or consulting roles. Feel free to reach out about anything.</p>
         <div class="contact-item"><div class="contact-icon">📍</div><span>Prague, Czech Republic</span></div>
-        <div class="contact-item"><div class="contact-icon">🌐</div><span>linkedin.com/in/jtgv/</span></div>
+        <div class="contact-item"><div class="contact-icon">🌐</div><a href="https://linkedin.com/in/jtgv/" target="_blank" rel="noopener noreferrer" style="color:var(--text2);text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'">linkedin.com/in/jtgv/</a></div>
       </div>
       <div class="contact-form">
         <div class="form-row">
           <div class="form-group"><label>FIRST NAME</label><input id="f-first" type="text" placeholder="Jane"/></div>
           <div class="form-group"><label>LAST NAME</label><input id="f-last" type="text" placeholder="Doe"/></div>
         </div>
-        <div class="form-group"><label>EMAIL</label><input id="f-email" type="email" placeholder="jane@example.com"/></div>
+        <div class="form-group" id="fg-email"><label>EMAIL</label><input id="f-email" type="email" placeholder="jane@example.com"/><span class="field-error">Please enter a valid email address.</span></div>
         <div class="form-group"><label>SUBJECT</label><input id="f-subject" type="text" placeholder="Collaboration inquiry"/></div>
-        <div class="form-group"><label>MESSAGE</label><textarea id="f-message" placeholder="Tell me about the opportunity..."></textarea></div>
+        <div class="form-group" id="fg-message"><label>MESSAGE</label><textarea id="f-message" placeholder="Tell me about the opportunity..."></textarea><span class="field-error">Please write a message.</span></div>
         <button class="submit-btn" onclick="sendMessage()">Send Message →</button>
       </div>
     </div>
@@ -403,7 +416,13 @@ async function sendMessage(){
   const email=document.getElementById('f-email').value.trim();
   const subject=document.getElementById('f-subject').value.trim();
   const message=document.getElementById('f-message').value.trim();
-  if(!email||!message){alert('Please fill in your email and message.');return;}
+  const fgEmail=document.getElementById('fg-email');
+  const fgMsg=document.getElementById('fg-message');
+  fgEmail.classList.remove('has-error');fgMsg.classList.remove('has-error');
+  let valid=true;
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){fgEmail.classList.add('has-error');valid=false;}
+  if(!message){fgMsg.classList.add('has-error');valid=false;}
+  if(!valid)return;
   const btn=document.querySelector('.submit-btn');
   btn.disabled=true;btn.textContent='Sending…';
   try{
@@ -421,8 +440,22 @@ async function sendMessage(){
       document.getElementById('f-email').value='';
       document.getElementById('f-subject').value='';
       document.getElementById('f-message').value='';
-    }else{alert('Something went wrong. Please try again.');}
-  }catch(e){alert('Network error. Please try again.');}
+    }else{
+      const errToast=document.getElementById('toast');
+      errToast.querySelector('.toast-icon').textContent='✕';
+      errToast.querySelector('.toast-icon').style.color='#f87171';
+      errToast.lastChild.textContent=' Something went wrong. Please try again.';
+      errToast.classList.add('show');
+      setTimeout(()=>{errToast.classList.remove('show');errToast.querySelector('.toast-icon').textContent='✓';errToast.querySelector('.toast-icon').style.color='';errToast.lastChild.textContent=' Message sent successfully!';},3000);
+    }
+  }catch(e){
+    const errToast=document.getElementById('toast');
+    errToast.querySelector('.toast-icon').textContent='✕';
+    errToast.querySelector('.toast-icon').style.color='#f87171';
+    errToast.lastChild.textContent=' Network error. Please try again.';
+    errToast.classList.add('show');
+    setTimeout(()=>{errToast.classList.remove('show');errToast.querySelector('.toast-icon').textContent='✓';errToast.querySelector('.toast-icon').style.color='';errToast.lastChild.textContent=' Message sent successfully!';},3000);
+  }
   btn.disabled=false;btn.textContent='Send Message →';
 }
 
