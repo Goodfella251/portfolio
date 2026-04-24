@@ -151,6 +151,7 @@ footer span{color:var(--accent)}
 .outcome-box{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.4rem;text-align:center}
 .outcome-val{font-size:1.8rem;font-weight:700;display:block;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .outcome-lbl{font-size:0.78rem;color:var(--text2);margin-top:0.3rem}
+.detail-gallery-img{width:100%;border-radius:10px;border:1px solid var(--border);margin:1.5rem 0;display:block;object-fit:cover}
 
 @media(max-width:700px){
   .about-grid,.contact-grid,.form-row,.outcomes-row{grid-template-columns:1fr}
@@ -281,10 +282,12 @@ footer span{color:var(--accent)}
         <p class="detail-section-title">Overview</p>
         <p id="d-overview"></p>
       </div>
+      <div id="d-img-overview"></div>
       <div class="detail-section">
         <p class="detail-section-title">The Challenge</p>
         <p id="d-challenge"></p>
       </div>
+      <div id="d-img-challenge"></div>
       <div class="detail-section">
         <p class="detail-section-title">My Contribution</p>
         <ul id="d-solution"></ul>
@@ -293,6 +296,7 @@ footer span{color:var(--accent)}
         <p class="detail-section-title">Outcomes</p>
         <div class="outcomes-row" id="d-outcomes"></div>
       </div>
+      <div id="d-img-outcomes"></div>
     </div>
   </div>
 </div>
@@ -307,6 +311,7 @@ const projects=[
 
   {num:"02",icon:"🎮",imageSrc:"assets/product/cooldown.png",title:"thecooldown.gg",company:"AB InBev",desc:"AB InBev's first esports platform — from MVP pitch to multi-million user growth engine.",tags:["Startup","Website","Gaming","Esports"],
   overview:"While there are 3.2B gamers worldwide, esports fans often lack a community-driven way to watch matches together — forced to choose between watching alone at home or paying thousands for travel to live events. I pitched and launched CoolDown through an internal AB InBev incubator, building a platform that bridges the gap between esports fans seeking community and bar owners looking for new footfall.",
+  gallery:{afterOverview:"assets/product/cooldown-1.png",afterChallenge:"assets/product/cooldown-2.png",afterOutcomes:"assets/product/cooldown-3.png"},
   challenge:"We launched in London, creating a high-conversion landing page for fans to find local events instantly. To solve the barrier of non-technical bar owners, I designed a simplified onboarding flow that highlighted immediate business benefits and simplified event creation.",
   solution:["Pitched the concept internally and secured executive buy-in to launch through an AB InBev incubator","Built and iterated a high-conversion landing page enabling fans to discover local esports events instantly","Designed a simplified bar owner onboarding flow reducing friction for non-technical operators","Scaled the platform to a community of 200k users through influencer partnerships and multi-channel growth strategy","Hosted hundreds of events driving over 5,000 in-person attendees"],
   outcomes:[{val:"200k",lbl:"community users"},{val:">$350k",lbl:"incremental revenue"},{val:"5,000+",lbl:"in-person attendees"}]},
@@ -368,6 +373,10 @@ function showDetail(i){
   document.getElementById('d-challenge').textContent=p.challenge;
   document.getElementById('d-solution').innerHTML=p.solution.map(s=>`<li>${s}</li>`).join('');
   document.getElementById('d-outcomes').innerHTML=p.outcomes.map(o=>`<div class="outcome-box"><span class="outcome-val">${o.val}</span><span class="outcome-lbl">${o.lbl}</span></div>`).join('');
+  const g=p.gallery||{};
+  document.getElementById('d-img-overview').innerHTML=g.afterOverview?`<img src="${g.afterOverview}" alt="" class="detail-gallery-img">`:'';
+  document.getElementById('d-img-challenge').innerHTML=g.afterChallenge?`<img src="${g.afterChallenge}" alt="" class="detail-gallery-img">`:'';
+  document.getElementById('d-img-outcomes').innerHTML=g.afterOutcomes?`<img src="${g.afterOutcomes}" alt="" class="detail-gallery-img">`:'';
   document.getElementById('main-page').classList.remove('active');
   document.getElementById('detail-page').classList.add('active');
   window.scrollTo(0,0);
