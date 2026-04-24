@@ -78,13 +78,6 @@ nav a:hover{color:var(--text)}
 .stat-val{font-size:1.6rem;font-weight:700;color:var(--text);display:block}
 .stat-label{font-size:0.78rem;color:var(--text2)}
 
-/* SKILLS */
-.skills-grid{display:flex;flex-wrap:wrap;gap:0.75rem}
-.skill-badge{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:0.55rem 1.1rem;font-size:0.85rem;color:var(--text2);transition:all 0.2s;cursor:default}
-.skill-badge:hover{border-color:var(--accent);color:var(--text);background:rgba(108,99,255,0.08);transform:translateY(-2px)}
-.skill-cat{margin-bottom:2.5rem}
-.skill-cat-title{font-size:0.72rem;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem}
-
 /* PROJECTS */
 .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.5rem}
 .project-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:all 0.25s;position:relative}
@@ -216,7 +209,6 @@ footer span{color:var(--accent)}
         <p class="about-text">My background spans cybersecurity, gaming & esports, mobile apps, and finance systems — giving me a rare ability to context-switch and find creative solutions across domains. I'm also fluent in English, Italian, and Spanish.</p>
       </div>
     </div>
-    <div id="skills-wrap" style="margin-top:3rem"></div>
   </div>
 
   <div class="divider"></div>
@@ -306,15 +298,6 @@ footer span{color:var(--accent)}
 </div>
 
 <script>
-const skillCats=[
-  {name:"Product Strategy",skills:["Product Vision","Roadmapping","0-to-1 Innovation","1-to-100 Scaling","P&L Management","Go-to-Market","OKRs & KPIs"]},
-  {name:"Growth & Monetisation",skills:["Subscription Growth","Churn Mitigation","LTV Optimisation","ARR Growth","Pricing Strategy","Experimentation","A/B Testing"]},
-  {name:"Research & Data",skills:["User Research","Qualitative Interviews","Data-Driven Decisions","Analytics","Funnel Analysis","NPS","Cohort Analysis"]},
-  {name:"Leadership & Delivery",skills:["Cross-Functional Leadership","Stakeholder Management","Executive Presentations","Engineering Collaboration","Agile","Scrum","Hiring & Mentoring"]},
-  {name:"Domains",skills:["Cybersecurity","B2C SaaS","Mobile Apps (iOS & Android)","Gaming & Esports","Finance Systems","Customer Portals","Web & Mobile"]},
-  {name:"Tools",skills:["Jira","Confluence","Figma","Amplitude","Mixpanel","Tableau","Miro"]},
-];
-
 const projects=[
   {num:"01",icon:"🏦",imageSrc:"assets/product/guru.png",title:"Guru — Finance Platform",company:"AB InBev",desc:"Zero-downtime launch of a critical internal finance platform rolled out across Europe.",tags:["Internal Platform","Website","Finance","Salesforce"],
   overview:"AB InBev, the world's largest brewer (Stella Artois, Corona, Budweiser), was undergoing a digital transformation. A critical legacy tool, GLASS, handled Finance ticketing and Exceptional Payment Approval Processes (EPAP), but it was inflexible and costly to maintain. GLASS had become a bottleneck — adding features was nearly impossible, and the system required constant manual intervention, slowing down global finance operations.",
@@ -356,14 +339,6 @@ const experience=[
   {date:"Feb 2018 — May 2019",role:"Project Lead",company:"AB InBev, Prague",desc:"Promoted in 14 months. Delivered 100% of hiring targets (140 graduates) from 12,000 applicants and secured a 30% program budget increase by quantifying pipeline ROI.",tags:["Recruitment","Project Mgmt","Operations"]},
   {date:"Oct 2016 — Jan 2018",role:"Project Manager",company:"AB InBev, Prague",desc:"Improved SLA adherence from 67% to 95% while leading a team of six recruiters. Maintained 100% process continuity during an RPO transition.",tags:["Team Leadership","SLA","Process Improvement"]},
 ];
-
-// RENDER SKILLS
-const sw=document.getElementById('skills-wrap');
-if(sw) skillCats.forEach(cat=>{
-  const d=document.createElement('div');d.className='skill-cat';
-  d.innerHTML=`<p class="skill-cat-title">${cat.name}</p><div class="skills-grid">${cat.skills.map(s=>`<span class="skill-badge">${s}</span>`).join('')}</div>`;
-  sw.appendChild(d);
-});
 
 // RENDER PROJECTS
 const pg=document.getElementById('projects-grid');
